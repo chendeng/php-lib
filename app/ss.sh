@@ -32,5 +32,13 @@ cd shadowsocks-libev/
 # Default encrypt: table, you could choose other encrypt algorithm such as: aes-256-cfb ....
 ip=`ifconfig | grep '^venet0:0' -A 1 |tail -n 1|awk '{print $2}' | grep -o -E '[[:digit:].]+'`
 port=10086
-nohup ss-server -s $ip -p $port -k password -m table &
+password=world
+encryption=table
+
 iptables_set $port
+
+# nohup ss-server -s $ip -p $port -k $password -m table &
+#/usr/bin/ssserver -p $port -k $password -m $encryption --user nobody --workers 2 -d start
+ss="/usr/local/bin/ss-server -p $port -k $password -m $encryption --user nobody --workers 2 -d start"
+echo $ss >> /etc/rc.d/rc.local
+eval $ss;

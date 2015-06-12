@@ -81,9 +81,6 @@ class Scheduler {
 
 	public function __construct() {
 		$this->taskQueue = new SplQueue();
-		var_dump(__LINE__);
-		$this->newTask($this->ioPollTask());
-		var_dump(__LINE__);
 	}
 
 	// resourceID => [socket, tasks]
@@ -119,7 +116,9 @@ class Scheduler {
 
 		$eSocks = []; // dummy
 
-		var_dump([$rSocks, $wSocks, $eSocks, $timeout]);
+		if(empty($rSocks) && empty($wSocks)){
+			return;
+		}
 		if (!stream_select($rSocks, $wSocks, $eSocks, $timeout)) {
 			return;
 		}
@@ -165,6 +164,7 @@ class Scheduler {
 	}
 
 	public function run() {
+		$this->newTask($this->ioPollTask());
 		while (!$this->taskQueue->isEmpty()) {
 			$task = $this->taskQueue->dequeue();
 			$retval = $task->run();
@@ -189,19 +189,24 @@ class Scheduler {
 function server($port) {
 	echo "Starting server at port $port...\n";
 
-	$socket = @stream_socket_server("tcp://localhost:$port", $errNo, $errStr);
+	//$socket = @stream_socket_server("tcp://localhost:$port", $errNo, $errStr);
+	$socket = @stream_socket_server("tcp://0:$port", $errNo, $errStr);
 	if (!$socket) throw new Exception($errStr, $errNo);
 
 	stream_set_blocking($socket, 0);
 
 	while (true) {
+		echo "server:waitForRead\n";
 		yield waitForRead($socket);
 		$clientSocket = stream_socket_accept($socket, 0);
+
+		echo "newTask:handleClient\n";
 		yield newTask(handleClient($clientSocket));
 	}
 }
 
 function handleClient($socket) {
+	echo "handclient:writeForRead\n";
 	yield waitForRead($socket);
 	$data = fread($socket, 8192);
 
@@ -217,6 +222,7 @@ Connection: close\r
 $msg
 RES;
 
+	echo "handclient:writeForWrite\n";
 	yield waitForWrite($socket);
 	fwrite($socket, $response);
 
@@ -224,6 +230,5 @@ RES;
 }
 
 $scheduler = new Scheduler;
-var_dump(__LINE__);
 $scheduler->newTask(server(8000));
 $scheduler->run();

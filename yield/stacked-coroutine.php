@@ -49,7 +49,8 @@ class Task {
 
 	public function __construct($taskId, Generator $coroutine) {
 		$this->taskId = $taskId;
-		$this->coroutine = $coroutine;
+		//$this->coroutine = $coroutine;
+		$this->coroutine = stackedCoroutine($coroutine);
 	}
 
 	public function getTaskId() {
@@ -117,6 +118,7 @@ class Scheduler {
 		$eSocks = []; // dummy
 
 		if(empty($rSocks) && empty($wSocks)){
+			echo "no socks!\n";
 			return;
 		}
 		if (!stream_select($rSocks, $wSocks, $eSocks, $timeout)) {
@@ -185,35 +187,100 @@ class Scheduler {
 
 }
 
+class CoroutineReturnValue {
+    protected $value;
+
+    public function __construct($value) {
+        $this->value = $value;
+    }
+
+    public function getValue() {
+        return $this->value;
+    }
+}
+
+function retval($value) {
+    return new CoroutineReturnValue($value);
+}
+
+function stackedCoroutine(Generator $gen) {
+    $stack = new SplStack;
+
+    for (;;) {
+        $value = $gen->current();
+
+        if ($value instanceof Generator) {
+            $stack->push($gen);
+            $gen = $value;
+            continue;
+        }
+
+        $isReturnValue = $value instanceof CoroutineReturnValue;
+        if (!$gen->valid() || $isReturnValue) {
+            if ($stack->isEmpty()) {
+                return;
+            }
+
+            $gen = $stack->pop();
+            $gen->send($isReturnValue ? $value->getValue() : NULL);
+            continue;
+        }
+
+        $gen->send(yield $gen->key() => $value);
+    }
+}
+
+class CoSocket {
+    protected $socket;
+
+    public function __construct($socket) {
+        $this->socket = $socket;
+    }
+
+    public function accept() {
+        yield waitForRead($this->socket);
+        yield retval(new CoSocket(stream_socket_accept($this->socket, 0)));
+    }
+
+    public function read($size) {
+        yield waitForRead($this->socket);
+        yield retval(fread($this->socket, $size));
+    }
+
+    public function write($string) {
+        yield waitForWrite($this->socket);
+        fwrite($this->socket, $string);
+    }
+
+    public function close() {
+        @fclose($this->socket);
+    }
+}
+
 //Lets try out scheduler with an example:
 function server($port) {
-	echo "Starting server at port $port...\n";
+    echo "Starting server at port $port...\n";
 
-	//$socket = @stream_socket_server("tcp://localhost:$port", $errNo, $errStr);
-	$socket = @stream_socket_server("tcp://0:$port", $errNo, $errStr);
-	if (!$socket) throw new Exception($errStr, $errNo);
+    $socket = @stream_socket_server("tcp://0:$port", $errNo, $errStr);
+    if (!$socket) throw new Exception($errStr, $errNo);
 
-	stream_set_blocking($socket, 0);
+    stream_set_blocking($socket, 0);
 
-	while (true) {
-		echo "server:waitForRead\n";
-		yield waitForRead($socket);
-		$clientSocket = stream_socket_accept($socket, 0);
-
-		echo "newTask:handleClient\n";
-		yield newTask(handleClient($clientSocket));
-	}
+    $socket = new CoSocket($socket);
+    while (true) {
+        yield newTask(
+            handleClient(yield $socket->accept())
+        );
+    }
 }
 
 function handleClient($socket) {
-	echo "handclient:writeForRead\n";
-	yield waitForRead($socket);
-	$data = fread($socket, 8192);
+    $data = (yield $socket->read(8192));
 
-	$msg = "Received following request:\n\n$data";
-	$msgLength = strlen($msg);
+    $msg = "Received following request:\n\n$data";
+    $msgLength = strlen($msg);
 
-	$response = <<<RES
+    $response = <<<RES
 HTTP/1.1 200 OK\r
 Content-Type: text/plain\r
 Content-Length: $msgLength\r
@@ -222,11 +289,8 @@ Connection: close\r
 $msg
 RES;
 
-	echo "handclient:writeForWrite\n";
-	yield waitForWrite($socket);
-	fwrite($socket, $response);
-
-	fclose($socket);
+    yield $socket->write($response);
+    yield $socket->close();
 }
 
 $scheduler = new Scheduler;

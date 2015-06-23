@@ -1,6 +1,7 @@
 ##################################################
-## install xdebug extension
+## Install xdebug extension
 ## Require: GNU grep >= 2.6.1 or BSD grep >= 2.5.1
+## Author: hilojack.com
 ################################################
 cd ~
 set -o errexit

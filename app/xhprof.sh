@@ -1,5 +1,8 @@
+####################################################
 # This script is used to install xhprof extension.
 # Warning! It only supports centos, fedora, redhat, macosx! 
+# If you have any question, contact with `hilojack.com` please.
+####################################################
 cat <<'MM'
 # The code below is used to create xhprof data:
 xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);

@@ -1,7 +1,8 @@
 ####################################################
 # This script is used to install xhprof extension.
-# Warning! It only supports centos, fedora, redhat, macosx! 
-# If you have any question, contact with `hilojack.com` please.
+# Require: wget.
+# Support: supports centos, fedora, redhat, macosx.
+# Author: hilojack.com
 ####################################################
 cat <<'MM'
 # The code below is used to create xhprof data:
@@ -46,4 +47,11 @@ if ! php -m | grep xhprof > /dev/null; then
 	#ownip=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 	nohup php -S 0.0.0.0:8000 -t /tmp/xhprof/xhprof_html/ &
 	sudo yum install graphviz -y || brew install graphviz; # xhprof's callgraph rely on graphviz
+
+	if hash service; then
+		sudo service php-fpm restart;
+	else
+		sudo pkill php-fpm;
+		sudo php-fpm -D;
+	fi
 fi

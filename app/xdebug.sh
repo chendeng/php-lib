@@ -47,4 +47,10 @@ cat <<-MM | sudo tee -a $phpini
 	xdebug.remote_port=9000
 	xdebug.remote_enable=on
 MM
+if hash service; then
+	sudo service php-fpm restart;
+else
+	sudo pkill php-fpm;
+	sudo php-fpm -D;
+fi
 cd ~

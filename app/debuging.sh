@@ -4,7 +4,7 @@
 cd ~
 set -o errexit
 
-php -i | grep debuging > /dev/null && exit;
+php -i | grep -F debuging.php > /dev/null && exit;
 
 phpini=`php --ini | grep -o -E 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
 [[ -z $phpini ]] && echo 'Could not find php.ini!' && exit;

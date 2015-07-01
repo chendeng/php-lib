@@ -3,6 +3,7 @@
 # Require: wget.
 # Support: supports centos, fedora, redhat, macosx.
 # Author: hilojack.com
+# Usage: sh <(wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/phpext.sh -O -) phptrace
 ####################################################
 cd ~
 set -o errexit;

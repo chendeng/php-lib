@@ -15,7 +15,7 @@ ob_start(function($buf){
 	$source = 'xhprof_debug';
 	$run_id = (new XHProfRuns_Default())->save_run($xhprof_data, $source);
 	$url = "http://{$_SERVER['SERVER_ADDR']}:8000/index.php?run={$run_id}&source=$source";
-	$link =  "<a href='$url'> $url</a>";
+	$link =  "<a href='$url'> $url</a><br>";
 	return $link . $buf;
 });
 MM

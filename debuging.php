@@ -64,3 +64,21 @@ function getTrace(){
 		return $msg . $e->getTraceAsString();
 	}
 }
+
+/**
+ * xhprof
+ */
+if(isset($_GET['debug']) && function_exists('xhprof_enable')){
+	xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+	ob_start(function($buf){
+		$xhprof_data = xhprof_disable();
+		$XHPROF_ROOT = '/tmp/xhprof';
+		include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
+		include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
+		$source = 'xhprof_debug';
+		$run_id = (new XHProfRuns_Default())->save_run($xhprof_data, $source);
+		$url = "http://{$_SERVER['SERVER_ADDR']}:8000/index.php?run={$run_id}&source=$source";
+		$link =  "<a href='$url'> $url</a><br>";
+		return $link . $buf;
+	});
+}

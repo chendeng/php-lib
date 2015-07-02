@@ -1,4 +1,9 @@
 <?php
+/**
+ * Refer to:
+ * 	http://hilojack/p/php-coroutines
+ *
+ **/
 class SystemCall {
 	protected $callback;
 

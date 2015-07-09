@@ -10,6 +10,9 @@ phpini=`php --ini | grep -o -E 'Configuration File:\s+\S+php\.ini' | awk '{print
 [[ -z $phpini ]] && echo 'Could not find php.ini!' && exit;
 
 curl -s https://raw.githubusercontent.com/hilojack/php-lib/master/debuging.php > /tmp/debuging.php;
+if [[ $1 = '-xhprof' ]];then
+	wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/xhprof.sh -O - | sh;
+fi
 
 #cat >> $phpini <<-MM
 cat <<-MM | sudo tee -a $phpini

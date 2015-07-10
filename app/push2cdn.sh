@@ -13,6 +13,7 @@
 ###########################
 set -o errexit;
 src=src_dir
+src=${src%/}
 fileNum=20; # 每次分发文件数:20
 module='h5_sinaimg_m'; # 默认module
 all=false;

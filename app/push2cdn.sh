@@ -27,31 +27,35 @@ while test $# -gt 0; do
 done
 
 function pushcdn(){
-	curl -d module=$1 -d files="$2" -d pad="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" "http://small-pool.sina.com.cn:8080/publish" -v 
+	echo curl -d module="$1" -d files="$2" -d pad="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" "http://small-pool.sina.com.cn:8080/publish" -v 
+	curl -d module="$1" -d files="$2" -d pad="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" "http://small-pool.sina.com.cn:8080/publish" -v 
 }
 
-# Create src_dir;
-test -d $src_dir || mkdir -p $src_dir;
+# Create src;
+test -d $src || mkdir -p $src;
 
 # pullRsync
-filelist=`rsync -avzn --port=8705 10.13.130.60::$module $src_dir`;
-pullRsync="rsync -avz --port=8705 10.13.130.60::$module $src_dir";
-$pullRsync;
+filelist=`rsync -avzn --port=8705 10.13.130.60::$module $src`;
+rsync -avz --port=8705 10.13.130.60::$module $src;
+
+# pushRsync
+rsync -avz  --port=873 $src/ small-pool.sina.com.cn::h5_sinaimg_m/
 
 # diffcmd
 declare -i i=0;
 declare -i j=0;
-if [[ "$all" = '-a' ]]; then
-	cmd="find $src -type f ";
+if [[ "$all" = 'true' ]]; then
+	cmd='find $src -type f | cut -c `let n=${#src}+2; echo -n $n`- ';
 else
-	cmd='printf "%s" $filelist';
+	cmd='printf "%s" "$filelist"';
 fi
 
 while read line; do 
-	if [[ "$line" =~ ^[[:digit:]./[:alpha:]]+$ ]] && [[ -f "$src/$line" ]];then
-		file="$src/$line";
-		md5=`md5 $file | awk '{print $NF}'`;
-		files+=`echo -ne "\n$file\t$md5"`
+	file="$src/$line";
+	if [[ "$file" =~ ^[[:digit:]_./[:alpha:]]+$ ]] && [[ -f "$file" ]];then
+		md5=`md5sum $file | awk '{print $1}'`;
+		relative_file=${file#$src/}
+		files+=`echo -ne "\n$relative_file\t$md5"`
 		let ++i;
 		if [[ $i -eq $fileNum ]];then
 			pushcdn $module "$files";
@@ -59,5 +63,5 @@ while read line; do
 			files='';
 		fi
 	fi
-done < <($cmd) ;
+done < <(eval "$cmd") ;
 [[ -n "$files" ]] && pushcdn $module "$files";

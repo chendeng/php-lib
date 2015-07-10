@@ -46,7 +46,8 @@ rsync -avz  --port=873 $src/ small-pool.sina.com.cn::h5_sinaimg_m/
 declare -i i=0;
 declare -i j=0;
 if [[ "$all" = 'true' ]]; then
-	cmd='find $src -type f | cut -c `let n=${#src}+2; echo -n $n`- ';
+	#cmd='find $src -type f | cut -c `let n=${#src}+2; echo -n $n`- ';
+	cmd='find $src -type f | cut -c `echo $((${#src}+2))`- ';
 else
 	cmd='printf "%s" "$filelist"';
 fi

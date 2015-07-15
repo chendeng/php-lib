@@ -1,6 +1,6 @@
 # This script is used to install shadowsocks server.
 # It only supports banwagon's centos vps. 
-#  	Default encrypt algorithm: table
+#  	Default encrypt algorithm: aes-256-cfb
 #  	Default port: 10086
 #
 
@@ -22,7 +22,7 @@ function iptables_set(){
 	fi
 }
 
-yum install git openssl-devel  build-essential autoconf libtool gcc -y
+yum install git bzip2 openssl-devel  build-essential autoconf libtool gcc make -y
 git clone https://github.com/madeye/shadowsocks-libev.git
 cd shadowsocks-libev/
 ./configure && make && make install
@@ -30,15 +30,16 @@ cd shadowsocks-libev/
 # https://github.com/shadowsocks/shadowsocks-libev#usage
 # https://github.com/shadowsocks/shadowsocks
 # Default encrypt: table, you could choose other encrypt algorithm such as: aes-256-cfb ....
-ip=`ifconfig | grep '^venet0:0' -A 1 |tail -n 1|awk '{print $2}' | grep -o -E '[[:digit:].]+'`
+# ip=`ifconfig | grep '^venet0:0' -A 1 |tail -n 1|awk '{print $2}' | grep -o -E '[[:digit:].]+'`
+ip=0.0.0.0
 port=10086
 password=world
-encryption=table
+encryption=aes-256-cfb
 
-iptables_set $port
+#iptables_set $port
 
 # nohup ss-server -s $ip -p $port -k $password -m table &
 #/usr/bin/ssserver -p $port -k $password -m $encryption --user nobody --workers 2 -d start
 ss="/usr/local/bin/ss-server -p $port -k $password -m $encryption --user nobody --workers 2 -d start"
-echo $ss >> /etc/rc.d/rc.local
-eval $ss;
+echo "$ss" >> /etc/rc.d/rc.local;
+eval "$ss &";

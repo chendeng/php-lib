@@ -54,7 +54,7 @@ fi
 
 while read line; do 
 	file="$src/$line";
-	if [[ "$file" =~ ^[[:digit:]_./[:alpha:]]+$ ]] && [[ -f "$file" ]];then
+	if [[ "$file" =~ ^[^[:space:]]+$ ]] && [[ -f "$file" ]];then
 		md5=`md5sum $file | awk '{print $1}'`;
 		relative_file=${file#$src/}
 		files+=`echo -ne "\n$relative_file\t$md5"`

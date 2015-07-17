@@ -47,26 +47,28 @@ If php >= 5.5.0
 
 If php < 5.5.0
 
+	$file = 'img/a.png';
+	$basename = basename($file);
 	$boundary = uniqid('prefix');
 	$header = array(
 		//'Expect: 100-continue',
 		'Content-Type: multipart/form-data; boundary='. $boundary,
 	);
 
-	$data = file_get_contents('img/a.png');
+	$data = file_get_contents($file);
 	$params = [];
 	$params[] = implode("\r\n", array(
 		"--$boundary",
 		"Content-Disposition: form-data; name=\"pic\"; filename=\"a.png\"",
 		"Content-Type: image/png",
 		"",
-		"$data";
+		"$data",
 	));
 	$params[] = implode("\r\n", array(
 		"--$boundary",
 		"Content-Disposition: form-data; name=\"var\"",
 		"",
-		"value";
+		"value",
 	));
 	$params[] = "--$boundary--\r\n";//It seems unnecessary in my test. 
 	$url = 'http://localhost:8000/up.php';

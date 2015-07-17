@@ -22,7 +22,7 @@ do
         fi
 
 		# Check debuging
-        ERROR=$(grep -F debuging "$ROOT_DIR$file")
+        ERROR=$(grep -HF debuging "$ROOT_DIR$file")
         if [ "$ERROR" != "" ]; then
 			push_error "$ERROR";
         fi

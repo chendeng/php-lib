@@ -11,6 +11,7 @@ set -o errexit;
 php -m | grep -F "$1" && echo "Warning: you have installed $1 before!" && exit;
 if ! php -m | grep $1 > /dev/null; then
 	phpini=`php --ini | grep -o -E 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
+	[[ -z $phpini ]] && phpini=`php --ini | grep -o -P 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
 	[[ -z $phpini ]] && echo 'Could not find php.ini!' && exit;
 	extension_dir=`php -i | grep -o -E "^extension_dir => \S+" | awk '{print $3}'`
 	[[ -z $extension_dir ]] && echo 'Could not find extension_dir!' && exit;

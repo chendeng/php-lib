@@ -21,6 +21,7 @@ make
 sudo make install
 #phpini=`php -i |grep -o -E 'Configuration File => [^[:space:]]+php\.ini' | awk '{print $4}'`
 phpini=`php --ini | grep -o -E 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
+[[ -z $phpini ]] && phpini=`php --ini | grep -o -P 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
 [[ -z $phpini ]] && echo 'Could not find php.ini!' && exit;
 extension_dir=`php -i | grep -o -E "^extension_dir => \S+" | awk '{print $3}'`
 [[ -z $extension_dir ]] && echo 'Could not find extension_dir!' && exit;

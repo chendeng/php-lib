@@ -7,9 +7,10 @@ set -o errexit
 php -i | grep -F debuging.php > /dev/null && exit;
 
 phpini=`php --ini | grep -o -E 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
+[[ -z $phpini ]] && phpini=`php --ini | grep -o -P 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
 [[ -z $phpini ]] && echo 'Could not find php.ini!' && exit;
 
-curl -s https://raw.githubusercontent.com/hilojack/php-lib/master/debuging.php > /tmp/debuging.php;
+wget https://raw.githubusercontent.com/hilojack/php-lib/master/debuging.php -O /tmp/debuging.php;
 if [[ $1 = '-xhprof' ]];then
 	wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/xhprof.sh -O - | sh;
 fi

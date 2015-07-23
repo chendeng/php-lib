@@ -7,22 +7,35 @@
 ####################################################
 cd ~
 set -o errexit;
-[[ -z "$1" ]] && exit;
-php -m | grep -F "$1" && echo "Warning: you have installed $1 before!" && exit;
-if ! php -m | grep $1 > /dev/null; then
+args=("$@");
+while test $# -gt 0; do
+	case "$1" in 
+		-no-check) nohttps="--no-check-certificate";;
+		*) ext="$1";
+	esac;
+	shift
+done
+[[ -z "$ext" ]] && exit;
+
+php -m | grep -F "$ext" && echo "Warning: you have installed $ext before!" && exit;
+if ! php -m | grep $ext > /dev/null; then
 	phpini=`php --ini | grep -o -E 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
 	[[ -z $phpini ]] && phpini=`php --ini | grep -o -P 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
 	[[ -z $phpini ]] && echo 'Could not find php.ini!' && exit;
 	extension_dir=`php -i | grep -o -E "^extension_dir => \S+" | awk '{print $3}'`
 	[[ -z $extension_dir ]] && echo 'Could not find extension_dir!' && exit;
 
-	source <(wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/$1.sh -O -)
+	source <(wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/$ext.sh -O -) "$@"
 
-	if hash service; then
-		sudo service php-fpm restart;
+	if ps aux| grep php-fpm > /dev/null; then
+		if hash service; then
+			sudo service php-fpm restart;
+		elif hash php-fpm; then
+			sudo pkill php-fpm;
+			sudo php-fpm -D;
+		fi;
 	else
-		sudo pkill php-fpm;
-		sudo php-fpm -D;
+		sudo apachectl restart;
 	fi
 fi
 cd ~

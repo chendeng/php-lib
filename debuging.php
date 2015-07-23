@@ -68,7 +68,7 @@ function getTrace(){
 /**
  * xhprof
  */
-if(isset($_GET['debug']) && function_exists('xhprof_enable')){
+if(isset($_GET['DEBUG']) && function_exists('xhprof_enable')){
 	xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
 	ob_start(function($buf){
 		$xhprof_data = xhprof_disable();

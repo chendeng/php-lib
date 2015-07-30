@@ -28,10 +28,4 @@ cat <<-MM | sudo tee -a $phpini
 	[debuging]
 	auto_prepend_file=/tmp/debuging.php
 MM
-if hash service; then
-	sudo service php-fpm restart;
-else
-	sudo pkill php-fpm;
-	sudo php-fpm -D;
-fi
 cd ~

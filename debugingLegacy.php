@@ -40,7 +40,8 @@ function debuging($var = '', $echo = '', $die = false, $force = false){
     }
 }
 function debugingPos(){
-	$tmp = debug_backtrace(2, 2);
+	//$tmp = debug_backtrace(2, 2);
+	$tmp = debug_backtrace();
 	$pos = $tmp[1];
     if(isset($pos['class'])){
         echo "{$pos['class']}->{$pos['function']} <br>\n";

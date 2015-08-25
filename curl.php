@@ -189,7 +189,7 @@ class curl {
 		$this->_option[CURLOPT_COOKIEFILE] = $file;//send cookie file
 		return $this;
 	}
-	protected function _enableHttps(){
+	protected function _https(){
 		$this->_option[CURLOPT_SSL_VERIFYPEER] = false;
 		return $this;
 	}

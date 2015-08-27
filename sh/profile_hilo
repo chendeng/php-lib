@@ -1,9 +1,9 @@
 # alias
-alias -s js=vi
 alias vi='mvim'
 alias cp='cp -i'
 alias svnst='svn st'
 alias l='ls -lah'
+export EDITOR=vim
 
 # git
 alias ga.='git add .'
@@ -13,9 +13,9 @@ function gcap(){
 }
 
 # grep
-mcd(){mkdir -p $@; cd $1}
+mcd(){ mkdir -p $@; cd $1}
 alias rgrep='grep -R -F'
-rgrep.(){grep -R -F $@ .}
+rgrep.(){ grep -R -F $@ .}
 
 # gbk
 function iconvgbk(){

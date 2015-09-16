@@ -1,6 +1,23 @@
 #######################
 # Only support centos6
 ##############
+# install php5.5
+
+	cd ~/
+	wget http://cn2.php.net/distributions/php-5.5.28.tar.gz -O - | tar xzvf -
+	cd php-5.5.28/
+	./configure --enable-fpm --with-mysql --with-mysqli=`which mysql_config` --with-curl=ext/curl --with-bz2=ext/bz2 --with-openssl --with-mcrypt=ext/mcrypt --with-mhash --enable-mbstring --with-ldap --with-gd --with-jpeg-dir=/usr/lib64 --enable-bcmath --enable-pcntl --enable-shmop --with-pdo-mysql --enable-soap --enable-sockets --enable-sysvsem --enable-sysvmsg --enable-zip --with-zlib
+	make && sudo make install
+
+	cp php.ini-development /usr/local/lib/php.ini
+	ln -s /usr/local/php/php.ini /etc
+		pdo_mysql.default_socket= /tmp/mysql.sock
+		timezone = Asia/Chongqing
+		
+	cp /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf
+	ln -s /usr/local/etc/php-fpm.conf /etc
+	#cp sapi/fpm/php-fpm /usr/local/bin
+
 # libmcrypt
 ## RHEL/CentOS 6 64-Bit ##
 wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm

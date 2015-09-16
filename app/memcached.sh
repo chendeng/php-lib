@@ -5,5 +5,6 @@ phpize
 
 cat <<-MM | sudo tee -a $phpini
 
-    [phptrace]
+    [memcached]
     extension=memcached.so
+MM

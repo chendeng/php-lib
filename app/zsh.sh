@@ -62,5 +62,10 @@ cd autojump;
 echo "[[ -s $HOME/.autojump/etc/profile.d/autojump.sh ]] && source $HOME/.autojump/etc/profile.d/autojump.sh" >> ~/.zshrc
 echo "autoload -U compinit && compinit -u" >> ~/.zshrc
 
+# prompt
+cat <<-'MM' | tee -a ~/.zshrc
+	export PS1='%n@%m%{$fg[cyan]%} %c%{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%}>%{$reset_color%}'
+MM
+
 source ~/.zshrc
 cd ~

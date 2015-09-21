@@ -18,7 +18,7 @@ phpini=`php --ini | grep -o -E 'Configuration File:\s+\S+php\.ini' | awk '{print
 [[ -z $phpini ]] && phpini=`php --ini | grep -o -P 'Configuration File:\s+\S+php\.ini' | awk '{print $3}'`
 [[ -z $phpini ]] && echo 'Could not find php.ini!' && exit;
 
-wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/debugingLegacy.php -O /tmp/debuging.php;
+wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/debuging.php -O /tmp/debuging.php;
 if [[ -n $xhprof ]];then
 	wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/app/xhprof.sh -O - | sh;
 fi

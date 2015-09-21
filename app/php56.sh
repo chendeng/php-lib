@@ -10,9 +10,9 @@
 	make && sudo make install
 
 	cp php.ini-development /usr/local/lib/php.ini
-	ln -s /usr/local/php/php.ini /etc
-		pdo_mysql.default_socket= /tmp/mysql.sock
-		timezone = Asia/Chongqing
+	ln -s /usr/local/lib/php.ini /etc
+		# pdo_mysql.default_socket= /tmp/mysql.sock
+		# date.timezone = Asia/Chongqing
 		
 	cp /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf
 	ln -s /usr/local/etc/php-fpm.conf /etc

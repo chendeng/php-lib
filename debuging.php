@@ -89,13 +89,14 @@ class Debug{
         if(function_exists('xhprof_disable')){
             $xhprof_data = xhprof_disable();
             $XHPROF_ROOT = '/tmp/xhprof';
-
-            include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
-            include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
-            $source = 'xhprof_debug';
-            $run_id = (new XHProfRuns_Default())->save_run($xhprof_data, $source);
-            $url = "http://{$_SERVER['SERVER_ADDR']}:8000/index.php?run={$run_id}&source=$source";
-            return "<a href='$url'> $url</a>";
+			if(file_exists($XHPROF_ROOT)){
+				include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
+				include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
+				$source = 'xhprof_debug';
+				$run_id = (new XHProfRuns_Default())->save_run($xhprof_data, $source);
+				$url = "http://{$_SERVER['SERVER_ADDR']}:8000/index.php?run={$run_id}&source=$source";
+				return "<a href='$url'> $url</a>";
+			}
         }
     }
 

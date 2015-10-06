@@ -11,13 +11,13 @@
 	self.request = function(url, method, data, func, async){
 		if(async === undefined) async = true; //default to be true
 		if(async === undefined) method = 'get';
-		var urlObj = new Url;
 
 		if(method === 'get' && data){ url = Url.addParams(url, data)}
 		xhr.open(method, url, async);
 
-		if(method === 'post'){
-			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//post
+		if(method === 'post' && typeof data === 'string'){
+			// 上传文件时，不能用form-urlencoded. 而必须使用 或者默认 Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryfyRdj8roosVVWIsH
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		}
 
 		if(func && async){

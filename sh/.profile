@@ -5,7 +5,7 @@ export EDITOR="vim"
 export CLICOLOR="xterm-color"
 export PATH=$PATH:$HOME/bin
 export GNUTERM=qt
-export PS1='${ret_status}>%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%} %{$reset_color%}'
+export PROMPT='${ret_status}>%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%} %{$reset_color%}'
 
 # alias
 alias vi='mvim'
@@ -43,8 +43,14 @@ rgrep.(){ grep -R -F $@ .}
 # gbk
 function iconvgbk(){
 	if test $# -gt 0; then
-		test -f $1 && iconv -f gbk -t utf-8  $1 > ~/tmp.txt && mv ~/tmp.txt $1 && echo "Successfully convert $file!";
+		test -f $1 && iconv -c -f gbk -t utf-8  $1 > ~/tmp.txt && mv ~/tmp.txt $1 && echo "Successfully convert $file!";
 	fi
+}
+function loop(){
+	while true;do
+		printf "\r%s" "`$*`";
+		sleep 1;
+	done
 }
 
 [ -f ~/.profile_private ] && source ~/.profile_private

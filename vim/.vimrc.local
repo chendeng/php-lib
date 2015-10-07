@@ -11,9 +11,6 @@ set laststatus=2
 "close & write
 "h CTRL-q
 nnoremap <C-q> :qa<CR>
-set <F13>=D-s
-inoremap <F13> <C-o>:up<CR>
-nnoremap <F13> :up<CR>
 
 " I use <C-d/u> to pageup/pageDowsn instead of <C-f/b>
 "noremap <C-b> <Left>
@@ -74,8 +71,21 @@ if has("gui_running")
     noremap <D-9> 9gt
     noremap <D-0> :tablast<CR>
 else
-    noremap D-c "+y
+	" update & copy
+	set <F13>=As
+	inoremap <F13> <C-o>:up<CR>
+	nnoremap <F13> :up<CR>
+	nnoremap Aa ggVG
+	vnoremap Ac "+y
 endif
+
+" select 
+nnoremap <space> vas
+nnoremap - ddp
+nnoremap _ ddkP
+
+" case
+"nnoremap U gUaw
 
 " input method
 set noimdisable

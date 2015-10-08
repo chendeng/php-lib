@@ -8,7 +8,7 @@ zsh <(wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/ap
 
 # xdebug
 nohttps="--no-check-certificate";
-wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/app/xdebug.sh -O - | sh;
+wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/app/xdebug.sh -O - | zsh;
 
 # memcached
-sh <(wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/phpext.sh -O -) memcached -no-check
+zsh <(wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/phpext.sh -O -) memcached -no-check

@@ -25,7 +25,7 @@ if ! php -m | grep $ext > /dev/null; then
 	extension_dir=`php -i | grep -o -E "^extension_dir => \S+" | awk '{print $3}'`
 	[[ -z $extension_dir ]] && echo 'Could not find extension_dir!' && exit;
 
-	source <(wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/$ext.sh -O -) "$@"
+	source <(wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/app/$ext.sh -O -) "$@"
 
 	if ps aux| grep php-fpm > /dev/null; then
 		if hash service; then

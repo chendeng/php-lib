@@ -52,7 +52,6 @@ echo "\033[0;32m"'                        /____/                       ....is no
 echo "\n\n \033[0;32mPlease look over the ~/.zshrc file to select plugins, themes, and options.\033[0m"
 echo "\n\n \033[0;32mp.s. Follow us at http://twitter.com/ohmyzsh.\033[0m"
 echo "\n\n \033[0;32mp.p.s. Get stickers and t-shirts at http://shop.planetargon.com.\033[0m"
-env zsh
 
 # autojump
 cd ~;
@@ -67,5 +66,5 @@ cat <<-'MM' | tee -a ~/.zshrc
 	export PS1='%n@%m%{$fg[cyan]%} %c%{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%}>%{$reset_color%}'
 MM
 
-source ~/.zshrc
 cd ~
+env zsh

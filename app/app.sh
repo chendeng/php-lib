@@ -9,3 +9,6 @@ wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/app/debu
 # xdebug
 nohttps="--no-check-certificate";
 wget $nohttps https://raw.githubusercontent.com/hilojack/php-lib/master/app/xdebug.sh -O - | sh;
+
+# memcached
+sh <(wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/phpext.sh -O -) memcached -no-check

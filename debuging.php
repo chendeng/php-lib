@@ -117,7 +117,7 @@ class Debug{
         return $table;
     }
 	static function getTrace(){
-		/*try{
+		try{
 			static $lastTime;
 			$lastTime or $lastTime = $_SERVER['REQUEST_TIME'];
 			$currTime = microtime(true);
@@ -131,7 +131,8 @@ class Debug{
 		}catch(Exception $e){
 			//debug_print_backtrace();
 			return $msg . $e->getTraceAsString();
-		}*/
+		}
+		/*
         static $lastTime;
         $lastTime or $lastTime = $_SERVER['REQUEST_TIME'];
         $currTime = microtime(true);
@@ -145,6 +146,7 @@ class Debug{
         $tmp = debug_backtrace();
         $msg .= var_export($tmp);
         return $msg;
+		 */
 	}
 
     static $CSS = <<<MM

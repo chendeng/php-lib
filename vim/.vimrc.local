@@ -9,12 +9,7 @@ set fileencodings=utf-8,gbk
 set laststatus=2
 
 "close & write
-"h CTRL-q
 nnoremap <C-q> :qa<CR>
-
-" I use <C-d/u> to pageup/pageDowsn instead of <C-f/b>
-"noremap <C-b> <Left>
-"noremap <C-f> <Right> 
 
 " provide hjkl movements in Insert mode 
 inoremap <C-b>  <Left>
@@ -44,32 +39,32 @@ noremap <Leader>2 :diffget 2<CR>
 " for macvim
 if has("gui_running")
 
-    "colorscheme darkblue
-    "colorscheme wombat
-    colorscheme torte
-    "set background=dark
-    "color solarized
+	"colorscheme darkblue
+	"colorscheme wombat
+	colorscheme torte
+	"set background=dark
+	"color solarized
 
-    set go=aAce  " remove toolbar
-    "set transparency=30
-    "set guifont=*
-    "set guifont=Menlo\ Bold:h13
-    set guifont=Monaco:h13
-    set showtabline=2
-    set columns=200
-    set lines=80
-    noremap <D-M-Left> :tabprevious<cr>
-    noremap <D-M-Right> :tabnext<cr>
-    noremap <D-1> 1gt
-    noremap <D-2> 2gt
-    noremap <D-3> 3gt
-    noremap <D-4> 4gt
-    noremap <D-5> 5gt
-    noremap <D-6> 6gt
-    noremap <D-7> 7gt
-    noremap <D-8> 8gt
-    noremap <D-9> 9gt
-    noremap <D-0> :tablast<CR>
+	set go=aAce  " remove toolbar
+	"set transparency=30
+	"set guifont=*
+	"set guifont=Menlo\ Bold:h13
+	set guifont=Monaco:h13
+	set showtabline=2
+	set columns=200
+	set lines=80
+	noremap <D-M-Left> :tabprevious<cr>
+	noremap <D-M-Right> :tabnext<cr>
+	noremap <D-1> 1gt
+	noremap <D-2> 2gt
+	noremap <D-3> 3gt
+	noremap <D-4> 4gt
+	noremap <D-5> 5gt
+	noremap <D-6> 6gt
+	noremap <D-7> 7gt
+	noremap <D-8> 8gt
+	noremap <D-9> 9gt
+	noremap <D-0> :tablast<CR>
 else
 	" update & copy
 	set <F13>=As
@@ -96,11 +91,13 @@ autocmd! InsertEnter * set noimdisable|set iminsert=0
 "" search current word
 map ft :call Search_Word()<CR>:copen<CR>
 function Search_Word()
-let w = expand("<cword>")
-execute "vimgrep " . w . " *"
+	let w = expand("<cword>")
+	execute "vimgrep " . w . " *"
 endfunction
 
 " crontab with no backup
 autocmd filetype crontab setlocal nobackup nowritebackup
+
 " Blog
 noremap <F9> :execute "0r _posts/test.md"<CR>
+

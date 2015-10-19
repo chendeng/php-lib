@@ -5,7 +5,7 @@ export EDITOR="vim"
 export CLICOLOR="xterm-color"
 export PATH=$PATH:$HOME/bin
 export GNUTERM=qt
-export PROMPT='${ret_status}>%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%} %{$reset_color%}'
+export PROMPT='${ret_status}>%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%}%{$reset_color%}'
 
 # alias
 alias vi='mvim'
@@ -48,7 +48,8 @@ function iconvgbk(){
 }
 function loop(){
 	while true;do
-		printf "\r%s" "`$*`";
+		#printf "\r%s" "`$*`";
+		printf "\r%s" "`$@`";
 		sleep 1;
 	done
 }

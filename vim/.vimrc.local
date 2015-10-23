@@ -1,3 +1,6 @@
+if filereadable(expand('~/.vimrc.func'))
+	exec 'source '.fnameescape('~/.vimrc.func')
+endif
 "mouse
 set mouse=a
 

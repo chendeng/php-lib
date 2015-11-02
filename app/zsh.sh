@@ -36,23 +36,6 @@ sed -i -e "/export PATH=/ c\\
 export PATH=\"$PATH\"
 " ~/.zshrc
 
-TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
-if [ "$TEST_CURRENT_SHELL" != "zsh" ]; then
-    echo "\033[0;34mTime to change your default shell to zsh!\033[0m"
-    chsh -s $(grep /zsh$ /etc/shells | tail -1)
-fi
-unset TEST_CURRENT_SHELL
-
-echo "\033[0;32m"'         __                                     __   '"\033[0m"
-echo "\033[0;32m"'  ____  / /_     ____ ___  __  __   ____  _____/ /_  '"\033[0m"
-echo "\033[0;32m"' / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \ '"\033[0m"
-echo "\033[0;32m"'/ /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / / '"\033[0m"
-echo "\033[0;32m"'\____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/  '"\033[0m"
-echo "\033[0;32m"'                        /____/                       ....is now installed!'"\033[0m"
-echo "\n\n \033[0;32mPlease look over the ~/.zshrc file to select plugins, themes, and options.\033[0m"
-echo "\n\n \033[0;32mp.s. Follow us at http://twitter.com/ohmyzsh.\033[0m"
-echo "\n\n \033[0;32mp.p.s. Get stickers and t-shirts at http://shop.planetargon.com.\033[0m"
-
 # autojump
 cd ~;
 git clone git://github.com/joelthelion/autojump.git

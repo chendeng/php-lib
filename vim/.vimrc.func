@@ -21,3 +21,15 @@ function! Remove(l, i)
     call remove(new_list, a:i)
     return new_list
 endfunction
+
+
+" function
+onoremap <script> <buffer> af :call <SID>CurrentFunction()<cr>
+vnoremap <script> <buffer> af :call <SID>CurrentFunction()<cr>
+
+function! s:CurrentFunction()
+	if search('\v^(\t|    )\w.*function \w+\([^\)]*\)\_s*\{', 'b') > 0
+		"exe 'silent normal' '?\v^(\t|    )\w.*function \w+\([^\)]*\)\_s*\{'."\r"
+		exe 'normal' "\<esc>".'V/\v^(\t|    )\}/'."\r"
+	endif
+endfunction

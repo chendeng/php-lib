@@ -1,6 +1,8 @@
 if filereadable(expand('~/.vimrc.func'))
 	exec 'source '.fnameescape('~/.vimrc.func')
 endif
+
+"" DEV
 "mouse
 set mouse=a
 

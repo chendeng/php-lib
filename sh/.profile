@@ -37,13 +37,18 @@ function gcap(){
 
 # grep
 mcd(){ mkdir -p $@; cd $1}
-alias rgrep='grep -R -F'
-rgrep.(){ grep -R -F $@ .}
+alias rgrep='grep -r -F'
+rgrep.(){ grep -r -F $@ .}
 
 # gbk
 function iconvgbk(){
 	if test $# -gt 0; then
 		test -f $1 && iconv -c -f gbk -t utf-8  $1 > ~/tmp.txt && mv ~/tmp.txt $1 && echo "Successfully convert $file!";
+	fi
+}
+function uniqfile(){
+	if test $# -gt 0; then
+		sort $1 | uniq > ~/tmp.txt && mv ~/tmp.txt $1 && echo 'succ'
 	fi
 }
 function loop(){

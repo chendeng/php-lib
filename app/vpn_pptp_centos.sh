@@ -127,3 +127,5 @@ else
     echo "Invalid selection, quitting."
     exit
 fi
+###如果有些网站不能访问，PPTP VPN安装之后，还需要在登录SSH后敲入并运行：
+#iptables -I FORWARD -p tcp –syn -i ppp+ -j TCPMSS –set-mss 1356

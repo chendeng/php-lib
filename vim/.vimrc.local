@@ -9,6 +9,7 @@ set mouse=a
 "encoding
 set fileencoding=utf-8
 set fileencodings=utf-8,gbk
+set ts=4 sw=4 noexpandtab
 
 "info
 set laststatus=2
@@ -31,12 +32,9 @@ cnoremap ƒ <C-f>
 cnoremap <C-f> <Right>
 nnoremap <D-a> a
 
-" view class
-nnoremap <F8> :TagbarToggle<CR>
-
 "vimdiff
-noremap <Leader>1 :diffget 1<CR>
-noremap <Leader>2 :diffget 2<CR>
+"noremap <Leader>1 :diffget 1<CR>
+"noremap <Leader>2 :diffget 2<CR>
 "noremap <silent> <Leader>3 :diffget 3<CR>
 
 "Tab

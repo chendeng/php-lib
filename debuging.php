@@ -88,7 +88,7 @@ class Debug{
     static function getXhprof(){
         if(function_exists('xhprof_disable')){
             $xhprof_data = xhprof_disable();
-            $XHPROF_ROOT = '/tmp/xhprof';
+            $XHPROF_ROOT = '/opt/xhprof';
 			if(file_exists($XHPROF_ROOT)){
 				include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
 				include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";

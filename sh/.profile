@@ -37,8 +37,8 @@ function gcap(){
 
 # grep
 mcd(){ mkdir -p $@; cd $1}
-alias rgrep='grep -r -F'
-rgrep.(){ grep -r -F $@ .}
+alias grepr='grep -r -F'
+grepr.(){ grep -r -F $@ .}
 
 # gbk
 function iconvgbk(){

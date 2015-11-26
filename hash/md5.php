@@ -13,6 +13,8 @@ function MD($string){
 	$c = "98BADCFE";
 	$d = "10325476";
 
+	$string = (string) $string;
+
 	$words = init($string);
 
 	for($i = 0; $i <= count($words)/16-1; $i++){

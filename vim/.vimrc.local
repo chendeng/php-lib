@@ -5,6 +5,7 @@ endif
 "" DEV
 "mouse
 set mouse=a
+set wrap
 
 "encoding
 set fileencoding=utf-8

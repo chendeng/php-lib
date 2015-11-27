@@ -11,8 +11,8 @@ php -m | grep xdebug > /dev/null && exit;
 if hash git1234; then
 	git clone https://github.com/derickr/xdebug 
 else
-	wget http://xdebug.org/files/xdebug-2.3.2.tgz -O - | tar xzf -
-	mv xdebug-2.3.2 xdebug
+	wget http://xdebug.org/files/xdebug-2.3.3.tgz -O - | tar xzf -
+	mv xdebug-2.3.3 xdebug
 fi
 cd xdebug
 phpize

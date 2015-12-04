@@ -2,6 +2,7 @@
 ## Install xdebug extension
 ## Require: GNU grep >= 2.6.1 or BSD grep >= 2.5.1
 ## Author: hilojack.com
+# Usage: sh <(wget https://raw.githubusercontent.com/hilojack/php-lib/master/app/xdebug.sh -O -)
 ################################################
 cd ~
 set -o errexit
